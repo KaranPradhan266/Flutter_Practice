@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 
-class CoffeePrefs extends StatelessWidget {
+class CoffeePrefs extends StatefulWidget {
   
   const CoffeePrefs({super.key});
 
+  @override
+  State<CoffeePrefs> createState() => _CoffeePrefsState();
+}
+
+class _CoffeePrefsState extends State<CoffeePrefs> {
+  int strength = 1, sugar = 1;
+
+
   void increaseStrength() {
-    // Logic to increase strength
-    print('increase strength by 1'); 
+    setState(() {
+      strength = strength < 5 ? strength + 1 : 1;      
+    });
   }
 
   void increaseSugar() {
-    // Logic to increase sugar
-    print('increase sugar by 1'); 
+    setState(() {
+      sugar = sugar < 5 ? sugar + 1 : 0;      
+    });
   }
 
   @override
@@ -21,12 +31,14 @@ class CoffeePrefs extends StatelessWidget {
         Row(
           children: [
             const Text('Strength: '),
-            const Text('3'),
-            Image.asset('assets/img/coffee_bean.png',
-              width: 25,
-              color: Colors.brown[100],
-              colorBlendMode: BlendMode.multiply,
+
+            for(int i = 0; i < strength; i++)
+              Image.asset('assets/img/coffee_bean.png',
+                width: 25,
+                color: Colors.brown[100],
+                colorBlendMode: BlendMode.multiply,
               ),
+
             const Expanded(child: SizedBox()),
             FilledButton(
               style: FilledButton.styleFrom(
@@ -41,12 +53,15 @@ class CoffeePrefs extends StatelessWidget {
         Row(
           children: [
             const Text('Sugar: '),
-            const Text('3'),
-            Image.asset('assets/img/sugar_cube.png',
-              width: 25,
-              color: Colors.brown[100],
-              colorBlendMode: BlendMode.multiply,
-              ),
+            if(sugar == 0)
+              const Text('No Sugar...', style: TextStyle(color: Colors.brown),),
+            for(int i = 0; i < sugar; i++)
+                Image.asset('assets/img/sugar_cube.png',
+                  width: 25,
+                  color: Colors.brown[100],
+                  colorBlendMode: BlendMode.multiply,
+                  ),
+            
             const Expanded(child: SizedBox()),
             FilledButton(
               style: FilledButton.styleFrom(
